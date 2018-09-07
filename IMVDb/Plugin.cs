@@ -1,9 +1,11 @@
 ﻿using System;
 using MediaBrowser.Common.Plugins;
+using System.IO;
+using MediaBrowser.Model.Drawing;
 
 namespace IMVDb
 {
-    public class Plugin : BasePlugin
+    public class Plugin : BasePlugin, IHasThumbImage
     {
         private Guid _id = new Guid("0277E613-3EC0-4360-A3DE-F8AF0AABB5E9");
         public override Guid Id
@@ -26,6 +28,20 @@ namespace IMVDb
             get
             {
                 return "IMVDb metadata for musiv videos";
+            }
+        }
+
+        public Stream GetThumbImage()
+        {
+            var type = GetType();
+            return type.Assembly.GetManifestResourceStream(type.Namespace + ".thumb.png");
+        }
+
+        public ImageFormat ThumbImageFormat
+        {
+            get
+            {
+                return ImageFormat.Png;
             }
         }
     }
